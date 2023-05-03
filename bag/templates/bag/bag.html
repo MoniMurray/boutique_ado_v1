@@ -20,6 +20,14 @@
     <!-- Row 1 of two in this container - Row 1 Contains Shopping Bag Heading -->
     <div class="row">
         <div class="col">
+            <hr>
+                <h2 class="logo-font mb-4">Shopping Bag</h2>
+            <hr>
+        </div>
+    </div>
+    <!-- Row 2 contains the bag contents -->
+    <div class="row">
+        <div class="col">
             <!-- Only display the table IF there are items in the bag -->
             {% if bag_items %}
             <div class="table-responsive rounded"></div>
@@ -35,8 +43,6 @@
             {% endif %}
         </div>
     </div>
-    <!-- Row 2 contains the bag contents -->
-    <div class="row"></div>
 </div>
 
 {% endblock %}
