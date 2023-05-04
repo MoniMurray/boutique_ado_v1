@@ -30,7 +30,9 @@
         <div class="col">
             <!-- Only display the table IF there are items in the bag -->
             {% if bag_items %}
-            <div class="table-responsive rounded"></div>
+            <div class="table-responsive rounded">
+                {{ bag_items }
+            </div>
             {% else %}
             <p class="lead mb-5">Your bag is empty.</p>
             <!-- provide a link back to the products page -->
