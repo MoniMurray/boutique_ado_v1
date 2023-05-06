@@ -62,11 +62,11 @@
                     <!-- layout is a single row with two columns -->
                     <div class="form-row">
                         <!-- if the product is an item that has sizes, give user drop-down to choose from -->
-                        {% with product.has_sizes as s %}
-                        {% if s %}
+                        {% with product.has_sizes as size %}
+                        {% if size %}
                         <div class="col-12">
                             <p><strong>Size:</strong></p>
-                            <select class="form-control rounded-0 w-50" name="product-size" id="id_product_size">
+                            <select class="form-control rounded-0 w-50" name="product_size" id="id_product_size">
                                 <option value="xs">XS</option>
                                 <option value="s">S</option>
                                 <option value="m" selected>M</option>
@@ -74,6 +74,7 @@
                                 <option value="xl">XL</option>
                             </select>
                         </div>
+                        {% endif %}
                         <!-- Column 1 contains the quantity input to enable our user select how many of the product they want to add -->
                         <div class="col-12">
                             <p class="mt-3"><strong>Quantity:</strong></p>
@@ -85,9 +86,9 @@
                             </div>
                         </div>
                         <!-- Column 2 contains the sbumit button for the form, a Keep Shopping button linking back to the products page
-                            and a hidden input field containing the current url of where the user is when they add to the shopping bag, to redirect
-                        the user back to that same page when they have completing adding to the bag -->
-                        <div class="col{% if s %}-12 mt-2{% endif %}">
+                                and a hidden input field containing the current url of where the user is when they add to the shopping bag, to redirect
+                            the user back to that same page when they have completing adding to the bag -->
+                        <div class="col{% if size %}-12 mt-2{% endif %}">
                             <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0 mt-5">
                                 <span class="icon">
                                     <i class="fas fa-chevron-left"></i>
