@@ -1,0 +1,20 @@
+<script type="text/javascript">
+    // increment quantity button
+    $('.increment-qty').click(function(e) {
+        e.preventDefault();
+        // find instead the closest input box in input-group class and drill down the tree to find the first element with the class qty_input
+        var closestInput=$(this).closest('.input-group').find('.qty_input')[0];
+        var currentValue=parseInt($(closestInput).val());
+        $(closestInput).val(currentValue + 1);
+    })
+
+     // decrement quantity button
+     $('.decrement-qty').click(function(e) {
+        e.preventDefault();
+        // find instead the closest input box in input-group class and drill down the tree to find the first element with the class qty_input
+        var closestInput=$(this).closest('.input-group').find('.qty_input')[0];
+        var currentValue=parseInt($(closestInput).val());
+        $(closestInput).val(currentValue - 1);
+    })
+
+</script>
