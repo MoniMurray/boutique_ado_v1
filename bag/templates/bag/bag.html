@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bag_tools %}
 
 {% block page_header %}
 
@@ -64,7 +65,7 @@
                             <!-- product price -->
                             <td class="py-3">
                                 <p class="my-0">
-                                    ${{ item.product.price}}
+                                    ${{ item.product.price }}
                                 </p>
                             </td>
                             <!-- product quantity -->
@@ -100,12 +101,12 @@
                                     </div>
                                 </form>
                                 <a class="update-link text-info"><small>Update</small></a>
-                                <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-size="{{ item.size }}"><small>Remove</small></a>
+                                <a class="remove-item text-danger float-right" id="remove_{{ item.item_id }}" data-product_size="{{ item.size }}"><small>Remove</small></a>
                             </td>
                             <!-- Shopping bag sub-total -->
                             <td class="py-3 w-25">
                                 <p class="my-0">
-                                    ${{ item.product.price}}
+                                    ${{ item.product.price  | calc_subtotal:item.quantity}}
                                 </p>
                             </td>
                         </tr>
@@ -180,9 +181,9 @@
         // we need the itemId and the size to be removed
         // the itemID can be obtained by splitting the id from the update link being clicked on at the underscore and taking the second half of it.
         var itemId = $(this).attr('id').split('remove_')[1];
-        var size = $(this).data('size');
-        var url = `/bag/remove/${itemId}`;
-        var data = {'csrfmiddlewaretoken': csrfToken, 'size': size};
+        var size = $(this).data('product_size');
+        var url = `/bag/remove/${itemId}/`;
+        var data = {'csrfmiddlewaretoken': csrfToken, 'product_size': size};
 
         $.post(url, data)
          .done(function() {
