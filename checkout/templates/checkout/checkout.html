@@ -30,12 +30,12 @@
             <hr>
         </div>
     </div>
+
     <!-- Row 2 contains the Orderform and Order Summary -->
     
-
             <!-- Order summary here -->
             <div class="row">
-                <div class="col-12 col-lg-6 order-lg-last mb5">
+                <div class="col-12 col-lg-6 order-lg-last mb-5">
                     <p class="text-muted">Order Summary ({{ product_count }})</p>
                     <!-- 3 main row components, Header, Brief items description, Cost Summary -->
                     <div class="row">
@@ -97,12 +97,12 @@
                     </div>
 
                 </div>
-            </div>
+            
+                
             
             <hr class="my-0">
             <!-- Orderform -->
-            <div class="row">
-                <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-6">
                     <p class="text-muted">Please fill out the form below to complete your order</p>
                 <form action="{% url 'checkout' %}" method="POST" id="payment-form">
                     {% csrf_token %}
@@ -201,7 +201,6 @@
                     </div>
                 </form>
                 </div>
-            </div>
 </div>
 
 {% endblock %}

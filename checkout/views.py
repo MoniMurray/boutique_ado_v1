@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.conf import settings
 from .forms import Orderform 
-from bag.contents import bag_contents
+from bag.contexts import bag_contents
 
 import stripe 
 
