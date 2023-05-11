@@ -1,11 +1,11 @@
 // get the stripe public key and client secret from the template using jQuery
 
-var stripe_public_key = $('#id_stripe_public_key').text().slice(1, -1);
-var client_secret = $('#id_client_secret').text().slice(1, -1);
+var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
+var clientSecret = $('#id_client_secret').text().slice(1, -1);
 
 // in order to set up Stripe, create a var using our stripe public key
 
-var stripe = Stripe(stripe_public_key);
+var stripe = Stripe(stripePublicKey);
 
 // now use it to create an instance of stripe elements
 
@@ -53,5 +53,40 @@ var style = {
         } else {
             errorDiv.textContent = '';
         }
+    });
+
+    // Add an event listener to the Payment form's submit event
+
+    var form = document.getElementById('payment-form');
+
+    // prevent the form's devault action, ie. to POST
+    form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        // while the card is being processed by Stripe, disable it to prevent multiple submissions
+        card.update({'disabled': true});
+        $('#submit-button').attr('disabled', true);
+        // use the stripe confirmcardpayment() method to send the card info securely to Stripe
+        stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+            }
+        }).then(function (result) {
+            if (result.error) {
+                var errorDiv = document.getElementById('card-errors');
+                var html = `
+                <span class="icon" role="alert">
+                <i class="fas fa-times"></i>
+                </span>
+                <span>${result.error.message}</span>`;
+                $(errorDiv).html(html);
+                // reenable card
+                card.update({'disabled': false});
+                $('#submit-button').attr('disabled', false);
+            } else {
+                if (result.paymentIntent.status === 'succeeded') {
+                    form.submit();
+                }
+            }
+        });
     });
 
