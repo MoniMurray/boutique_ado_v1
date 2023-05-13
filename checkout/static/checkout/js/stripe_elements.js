@@ -65,6 +65,9 @@ var style = {
         // while the card is being processed by Stripe, disable it to prevent multiple submissions
         card.update({'disabled': true});
         $('#submit-button').attr('disabled', true);
+        // form fade out to layout overlay with spinner for payment processing
+        $('payment-form').fadeToggle(100);
+        $('#loading-overlay').fadeToggle(100);
         // use the stripe confirmcardpayment() method to send the card info securely to Stripe
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -79,6 +82,9 @@ var style = {
                 </span>
                 <span>${result.error.message}</span>`;
                 $(errorDiv).html(html);
+                // reverse fade out 
+                $('payment-form').fadeToggle(100);
+                $('#loading-overlay').fadeToggle(100);
                 // reenable card
                 card.update({'disabled': false});
                 $('#submit-button').attr('disabled', false);
