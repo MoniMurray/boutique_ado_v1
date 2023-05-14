@@ -20,6 +20,8 @@ class OrderAdmin(admin.ModelAdmin):
         'delivery_cost',
         'order_total',
         'grand_total',
+        'original_bag',
+        'stripe_pid',
     )
 
     # not 'strictly' necessary to do the following, but if you want your fields in a specific order you should do this
@@ -38,6 +40,8 @@ class OrderAdmin(admin.ModelAdmin):
         'delivery_cost',
         'order_total',
         'grand_total',
+        'original_bag',
+        'stripe_pid',
     )
 
     list_display = (

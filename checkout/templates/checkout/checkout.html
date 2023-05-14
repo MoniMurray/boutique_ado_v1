@@ -182,6 +182,9 @@ payment is being processed -->
 
                         </div>
 
+                        <!-- pass the client secret to the view so we can get the payment intent id -->
+                        <input type="hidden" value="{{ client_secret }}" name="client_secret">
+
                     </fieldset>
 
                     <!-- Submit Button -->
