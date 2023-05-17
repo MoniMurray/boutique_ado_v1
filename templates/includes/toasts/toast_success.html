@@ -13,7 +13,7 @@
               {{ message }}  
               <hr class="mt-1 mb-3">
               <!-- under the success message, render the shopping bag preview but only if there's a grand total -->
-              {% if grand_total %}
+              {% if grand_total and not on_profile_page %}
               <!-- the preview header is a simple paragraph element shopping the Total of the items in the bag in parenthesis -->
               <p class="logo-font bg-white text-black py-1">Your Bag ({{ product_count}})</p>
               <div class="bag-notifications-wrapper">
