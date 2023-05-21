@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 
 import json
 import time
+import stripe
 
 class StripeWH_Handler:
     """
@@ -70,9 +71,18 @@ class StripeWH_Handler:
         bag = intent.metadata.bag
         save_info = intent.metadata.save_info
 
-        billing_details = intent.charges.data[0].billing_details
+        # Get the Charge object
+        stripe_charge = stripe.Charge.retrieve(
+                intent.latest_charge
+                )
+
+        # billing_details = intent.charges.data[0].billing_details
+        # shipping_details = intent.shipping
+        # grand_total = round(intent.charges.data[0].amount / 100, 2)
+
+        billing_details = stripe_charge.billing_details # updated
         shipping_details = intent.shipping
-        grand_total = round(intent.charges.data[0].amount / 100, 2)
+        grand_total = round(stripe_charge.amount / 100, 2) # updated
 
         # Clean data in the shipping details
         for field, value in shipping_details.address.items():
@@ -84,18 +94,18 @@ class StripeWH_Handler:
         # By setting the profile to None still enables unregistered users
         # make a purchase from our store
         profile = None
-        username = intent.metdata.username
+        username = intent.metadata.username
 
         # similar to request.user, if the user is not anonymous user we know they were registered
         if username != 'AnonymousUser':
             # so we get their profile using the filter of username
-            profile = UserProfile.object.get(user__username=username)
+            profile = UserProfile.objects.get(user__username=username)
 
             # if they have the save_info checked, 
             # add their shipping details as their default delivery info and save profile
             if save_info:
                 profile.default_phone_number = shipping_details.phone
-                profile.default_country = shipping_details.country
+                profile.default_country = shipping_details.address.country
                 profile.default_post_code = shipping_details.address.postal_code
                 profile.default_town_or_city = shipping_details.address.city
                 profile.default_street_address1 = shipping_details.address.line1
@@ -113,7 +123,7 @@ class StripeWH_Handler:
                     email__iexact=billing_details.email,
                     phone_number__iexact=shipping_details.phone,
                     country__iexact=shipping_details.address.country,
-                    postcode__iexact=shipping_details.address.postal_code,
+                    post_code__iexact=shipping_details.address.postal_code,
                     town_or_city__iexact=shipping_details.address.city,
                     street_address1__iexact=shipping_details.address.line1,
                     street_address2__iexact=shipping_details.address.line2,
@@ -141,7 +151,7 @@ class StripeWH_Handler:
                     email=billing_details.email,
                     phone_number=shipping_details.phone,
                     country=shipping_details.address.country,
-                    postcode=shipping_details.address.postal_code,
+                    post_code=shipping_details.address.postal_code,
                     town_or_city=shipping_details.address.city,
                     street_address1=shipping_details.address.line1,
                     street_address2=shipping_details.address.line2,
