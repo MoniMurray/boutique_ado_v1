@@ -43,6 +43,21 @@ payment is being processed -->
         </div>
     </div>
 
+    <!-- Row 2 of two in this container - Row 2 contains the form -->
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form method="POST" action="{% url 'add_product' %}" 
+                class="form mb-2" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="text-right">
+                    <a href="{% url 'products' %}" class="btn btn-outline-black rounded-0">Cancel</a>
+                    <button class="btn btn-black rounded-0" type="submit">Add Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
         
 </div>
