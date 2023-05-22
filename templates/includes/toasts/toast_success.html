@@ -23,7 +23,12 @@
 
                         <!-- this col will contain the product image -->
                         <div class="col-3 my-1">
-                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{product.name}} image">
+                            <!-- render a product image -->
+                            {% if item.product.image %}
+                            <img class="w-100" src="{{ item.product.image.url }}" alt="{{ item.product.name}} image">
+                            {% else %}
+                            <img class="w-100" src="{{ MEDIA_URL }}noimage.png" alt="{{ item.product.name}} image">
+                            {% endif %}
                         </div>
                         <!-- this col will contain the product name, size and qty -->
                         <div class="col-9">
