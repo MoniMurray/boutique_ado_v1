@@ -81,6 +81,12 @@ def add_product(request):
     """
     Add a Product to the store
     """
+
+    # restrict this view function to superusers/store owner
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
     if request.method == 'POST':
         # instantiate a new instance of the ProductForm from request.POST,
         # include request.Files to allow for images to be captured
@@ -105,6 +111,11 @@ def edit_product(request, product_id):
     """
     Edit a Product in the store
     """
+    # restrict this view function to superusers/store owner
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
     # pre-fill the form wiht the product details
     product = get_object_or_404(Product, pk=product_id)
     if request.method == 'POST':
@@ -134,6 +145,11 @@ def delete_product(request, product_id):
     """
     Delete a Product from the store
     """
+    # restrict this view function to superusers/store owner
+    if not request.user.is_superuser:
+        messages.error(request, 'Sorry, only store owners can do that.')
+        return redirect(reverse('home'))
+
     # pre-fill the form with the product details
     product = get_object_or_404(Product, pk=product_id)
     product.delete()
