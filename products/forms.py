@@ -1,5 +1,7 @@
 from django import forms
+from .widgets import CustomClearableFileInput
 from .models import Product, Category
+
 
 class ProductForm(forms.ModelForm):
     """
@@ -15,6 +17,10 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
+        # replace the image field on the form with the new one which 
+        # utilises our custom widget
+        image = forms.ImageField(label='Image', required=False, widget=CustomClearableFileInput)
+
         def __init__(self, *args, **kwargs):
 
             # override the init() to make changes to some fields
@@ -28,5 +34,5 @@ class ProductForm(forms.ModelForm):
             # from instead ofusing the id.
 
             self.fields['category'].choices = friendly_names
-            for field_name, filed in self.fields.items():
+            for field_name, field in self.fields.items():
                 field.widget.attrs['class'] = 'border-black rounded-0'
